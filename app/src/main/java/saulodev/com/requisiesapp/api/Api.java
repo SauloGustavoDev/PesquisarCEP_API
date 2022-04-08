@@ -8,7 +8,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import saulodev.com.requisiesapp.CEPService;
+import saulodev.com.requisiesapp.interfaces.CEPService;
 import saulodev.com.requisiesapp.model.CEP;
 
 public class Api {

@@ -1,4 +1,4 @@
-package saulodev.com.requisiesapp;
+package saulodev.com.requisiesapp.interfaces;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
