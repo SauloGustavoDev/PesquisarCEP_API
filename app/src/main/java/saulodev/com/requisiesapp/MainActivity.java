@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Api api = new Api();
                 api.recuperarCEPretrofit(textoRecuperado, edtDigitado);
+                //Para utilizar o método abaixo é necessário alterar o baseUrl
+                //api.recuperarListaPhoto();
             }
         });
     }
