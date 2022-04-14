@@ -1,24 +1,32 @@
 package saulodev.com.requisiesapp.model;
 
 public class Postagem {
-    private String userId;
-    private String id;
+    private Integer userId;
+    private Integer id;
     private String title;
     private String body;
 
-    public String getUserId() {
+    public Postagem(Integer userId, String title, String body) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
+
+
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -37,7 +45,6 @@ public class Postagem {
     public void setBody(String body) {
         this.body = body;
     }
-
 
 
 }

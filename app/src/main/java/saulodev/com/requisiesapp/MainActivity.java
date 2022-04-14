@@ -7,14 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import saulodev.com.requisiesapp.api.Api;
-import saulodev.com.requisiesapp.model.CEP;
+
 
 public class MainActivity extends AppCompatActivity {
     TextView textoRecuperado;
@@ -32,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Api api = new Api();
+                //Metodo DELETE
+                //api.removerPostagem(textoRecuperado);
+                //Metodo PUT ("Atualizar")
+                //api.atualizarPostagem(textoRecuperado);
+                //Método Post
+                //api.salvarPostagem(textoRecuperado, 123, "Resultado", "resultado");
+                //Metodo GET api correio
                 api.recuperarCEPretrofit(textoRecuperado, edtDigitado);
                 //Para utilizar o método abaixo é necessário alterar o baseUrl
                 //api.recuperarListaPhoto();

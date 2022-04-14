@@ -15,23 +15,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import saulodev.com.requisiesapp.interfaces.DataService;
 import saulodev.com.requisiesapp.model.CEP;
 import saulodev.com.requisiesapp.model.Photo;
+import saulodev.com.requisiesapp.model.Postagem;
 
 public class Api {
 
     private Retrofit retrofit;
     private List<Photo> ListaFotos = new ArrayList<>();
+    private DataService service;
 
     public Api() {
          retrofit = new Retrofit.Builder()
-                .baseUrl("https://viacep.com.br/ws/")
-                 // .baseUrl("https://jsonplaceholder.typicode.com")
+                //.baseUrl("https://viacep.com.br/ws/")
+                 .baseUrl("https://jsonplaceholder.typicode.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+                service = retrofit.create(DataService.class);
     }
 
     public void recuperarCEPretrofit(TextView textoRecuperado, EditText edtDigitado){
-        DataService dataService = retrofit.create(DataService.class);
-        Call<CEP> call = dataService.recuperarCEP(edtDigitado.getText().toString());
+        Call<CEP> call = service.recuperarCEP(edtDigitado.getText().toString());
         call.enqueue(new Callback<CEP>() {
             @Override
             public void onResponse(Call<CEP> call, Response<CEP> response) {
@@ -53,7 +55,6 @@ public class Api {
     }
 
     public void recuperarListaPhoto(){
-        DataService service = retrofit.create(DataService.class);
         Call<List<Photo>> call = service.recuperarPhoto();
 
         call.enqueue(new Callback<List<Photo>>() {
@@ -74,10 +75,73 @@ public class Api {
             }
         });
 
-
-
     }
-    public void recuperarPostagensRetrofit(){
+    public void salvarPostagem(TextView textoRecuperado, int userId, String title, String corpo){
 
+        //Configura objeto postagem
+        Postagem postagem = new Postagem(userId, title, corpo);
+
+        //recupera o serviço e salva postagem
+        Call<Postagem> call = service.salvarPostagem(postagem);
+
+        call.enqueue(new Callback<Postagem>() {
+            @Override
+            public void onResponse(Call<Postagem> call, Response<Postagem> response) {
+                if(response.isSuccessful()){
+                    Postagem postagemResposta = response.body();
+                    textoRecuperado.setText(
+                                            "Código: " + response.code() +
+                                            "\nid: " + postagemResposta.getId() +
+                                            "\nTitulo: " + postagemResposta.getTitle()
+                                            );
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Postagem> call, Throwable t) {
+
+            }
+        });
     }
+
+    public void atualizarPostagem(TextView textoRecuperado){
+        Postagem postagem = new Postagem(12, null, "corpo");
+        Call<Postagem> call = service.atualizarPostagem(1, postagem);
+        call.enqueue(new Callback<Postagem>() {
+            @Override
+            public void onResponse(Call<Postagem> call, Response<Postagem> response) {
+                if (response.isSuccessful()){
+                    Postagem postagemResposta = response.body();
+                    textoRecuperado.setText(
+                            "Código: " + response.code() +
+                                    "\nid: " + postagemResposta.getId() +
+                                    "\nuserId: " + postagemResposta.getUserId() +
+                                    "\nTitulo: " + postagemResposta.getTitle()
+                    );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Postagem> call, Throwable t) {
+
+            }
+        });
+}
+public void removerPostagem(TextView textoRecuperado){
+        Call<Void> call = service.removerPostagem(2);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()){
+                    textoRecuperado.setText("Objeto Deletado com sucesso! \nStatus: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+}
 }
